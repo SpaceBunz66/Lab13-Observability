@@ -13,6 +13,7 @@
 
 - [VALIDATE_LOGS_FINAL_SCORE]: 100/100
 - [TOTAL_TRACES_COUNT]: 11
+![Correlation ID Screenshot](docs\envidence\01_langfuse_trace_list_11_traces.png)
 - [PII_LEAKS_FOUND]: 0
 
 ---

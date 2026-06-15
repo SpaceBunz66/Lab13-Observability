@@ -5,6 +5,7 @@ Template repo for a 4-hour hands-on lab on Monitoring, Logging, and Observabilit
 ## What students will build
 
 A small FastAPI "agent" instrumented with:
+
 - structured JSON logging
 - correlation ID propagation
 - PII scrubbing
@@ -86,28 +87,18 @@ docs/
   mock-debug-qa.md       oral/written debugging questions
 ```
 
-## Team role suggestion
-
-- Member A: logging + PII
-- Member B: tracing + tags
-- Member C: SLO + alerts
-- Member D: load test + incident injection
-- Member E: dashboard + evidence
-- Member F: blueprint + demo lead
-
 ## Grading policy (60/40 Split)
 
 Your final grade is calculated as follows:
 
-1. **Group Score (60%)**: 
-   - **Technical Implementation (30 pts)**: Verified by `validate_logs.py` and live system state.
-   - **Incident Response (10 pts)**: Accuracy of your root cause analysis in the report.
-   - **Live Demo (20 pts)**: Team presentation and system demonstration.
-2. **Individual Score (40%)**:
-   - **Individual Report (20 pts)**: Quality of your specific contributions in `docs/blueprint-template.md`.
-   - **Git Evidence (20 pts)**: Traceable work via commits and code ownership.
+- **Technical Implementation (30 pts)**: Verified by `validate_logs.py` and live system state.
+- **Incident Response (10 pts)**: Accuracy of your root cause analysis in the report.
+- **Live Demo (20 pts)**: Presentation and system demonstration.
+- **Individual Report (20 pts)**: Quality of your specific contributions in `docs/blueprint-template.md`.
+- **Git Evidence (20 pts)**: Traceable work via commits and code ownership.
 
-**Passing Criteria**: 
+**Passing Criteria**:
+
 - All `TODO` blocks must be completed.
 - Minimum of 10 traces must be visible in Langfuse.
 - Dashboard must show all 6 required panels.

@@ -13,7 +13,7 @@ from .metrics import record_error, snapshot
 from .middleware import CorrelationIdMiddleware
 from .pii import hash_user_id, summarize_text
 from .schemas import ChatRequest, ChatResponse
-from .tracing import tracing_enabled
+from .tracing import shutdown_traces, tracing_enabled
 
 configure_logging()
 log = get_logger()
@@ -28,8 +28,14 @@ async def startup() -> None:
         "app_started",
         service=os.getenv("APP_NAME", "day13-observability-lab"),
         env=os.getenv("APP_ENV", "dev"),
+        correlation_id="system",
         payload={"tracing_enabled": tracing_enabled()},
     )
+
+
+@app.on_event("shutdown")
+async def shutdown() -> None:
+    shutdown_traces()
 
 
 @app.get("/health")
@@ -44,9 +50,14 @@ async def metrics() -> dict:
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: Request, body: ChatRequest) -> ChatResponse:
-    # TODO: Enrich logs with request context (user_id_hash, session_id, feature, model, env)
-    # bind_contextvars(...)
-    
+    bind_contextvars(
+        user_id_hash=hash_user_id(body.user_id),
+        session_id=body.session_id,
+        feature=body.feature,
+        model=agent.model,
+        env=os.getenv("APP_ENV", "dev"),
+    )
+
     log.info(
         "request_received",
         service="api",
@@ -58,6 +69,7 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             feature=body.feature,
             session_id=body.session_id,
             message=body.message,
+            correlation_id=request.state.correlation_id,
         )
         log.info(
             "response_sent",
